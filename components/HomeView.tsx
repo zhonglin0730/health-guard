@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldAlert, Activity, HeartPulse, Brain, AlertTriangle, Phone, Watch, ChevronRight, Droplet } from 'lucide-react';
 import { RiskGauge } from './RiskGauge';
 import { ReportView } from './ReportView';
@@ -9,13 +9,47 @@ export const HomeView: React.FC = () => {
   const [showReport, setShowReport] = useState(false);
   const [selectedRisk, setSelectedRisk] = useState<'heart' | 'brain' | 'tumor' | null>(null);
 
+  // Handle Browser/Mobile Back Button logic
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // If back button is pressed, close any open overlays
+      if (showReport) {
+        setShowReport(false);
+      }
+      if (selectedRisk) {
+        setSelectedRisk(null);
+      }
+      if (showSOS) {
+        setShowSOS(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [showReport, selectedRisk, showSOS]);
+
+  // Helper to open overlays and push history state
+  const openOverlay = (type: 'report' | 'risk' | 'sos', data?: any) => {
+    // Push a new state so the back button works
+    window.history.pushState({ overlay: type }, '');
+    
+    if (type === 'report') setShowReport(true);
+    if (type === 'sos') setShowSOS(true);
+    if (type === 'risk') setSelectedRisk(data);
+  };
+
+  // Helper to close overlay (simulates back button to keep history clean)
+  const closeOverlay = () => {
+    window.history.back();
+  };
+
   return (
     <div className="space-y-6 pb-20 relative animate-in fade-in duration-500">
       {/* Report Overlay */}
-      {showReport && <ReportView onClose={() => setShowReport(false)} />}
+      {showReport && <ReportView onClose={closeOverlay} />}
       
       {/* Risk Analysis Overlay */}
-      {selectedRisk && <RiskAnalysisView type={selectedRisk} onClose={() => setSelectedRisk(null)} />}
+      {selectedRisk && <RiskAnalysisView type={selectedRisk} onClose={closeOverlay} />}
 
       {/* Header Status */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-6 rounded-b-3xl shadow-lg text-white relative overflow-hidden">
@@ -42,7 +76,7 @@ export const HomeView: React.FC = () => {
               <h2 className="text-3xl font-bold mb-2">正在呼救</h2>
               <p className="text-center mb-8 px-8">已向预警中心发送求助信号<br/>正在联系您的紧急联系人...</p>
               <button 
-                onClick={() => setShowSOS(false)}
+                onClick={closeOverlay}
                 className="bg-white text-red-600 px-8 py-3 rounded-full font-bold shadow-lg active:scale-95 transition-transform"
               >
                 取消呼救 (长按)
@@ -57,7 +91,7 @@ export const HomeView: React.FC = () => {
              <div className="text-xs opacity-80">今日健康分</div>
            </div>
            <button 
-             onClick={() => setShowSOS(true)}
+             onClick={() => openOverlay('sos')}
              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full flex items-center shadow-lg transition-all text-sm font-bold hover:shadow-red-500/30 hover:scale-105 active:scale-95"
            >
              <Phone size={16} className="mr-2" />
@@ -78,13 +112,13 @@ export const HomeView: React.FC = () => {
         
         <div className="grid grid-cols-2 gap-4">
           <button 
-            onClick={() => setSelectedRisk('heart')}
+            onClick={() => openOverlay('risk', 'heart')}
             className="text-left w-full active:scale-[0.98] transition-transform"
           >
             <RiskGauge percentage={12} label="心梗风险" color="#10b981" />
           </button>
           <button 
-            onClick={() => setSelectedRisk('brain')}
+            onClick={() => openOverlay('risk', 'brain')}
             className="text-left w-full active:scale-[0.98] transition-transform"
           >
             <RiskGauge percentage={8} label="脑卒中风险" color="#10b981" />
@@ -92,7 +126,7 @@ export const HomeView: React.FC = () => {
         </div>
         
         <button 
-          onClick={() => setSelectedRisk('tumor')}
+          onClick={() => openOverlay('risk', 'tumor')}
           className="w-full text-left mt-4 bg-white p-4 rounded-xl shadow-sm border-l-4 border-yellow-400 active:scale-[0.98] transition-transform relative group"
         >
           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 group-hover:translate-x-1 transition-transform">
@@ -163,7 +197,7 @@ export const HomeView: React.FC = () => {
       {/* Promo Banner */}
       <div className="px-4 animate-fade-in-up delay-300">
          <button 
-            onClick={() => setShowReport(true)}
+            onClick={() => openOverlay('report')}
             className="w-full text-left bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 text-white flex items-center justify-between shadow-md active:scale-[0.98] transition-transform group"
          >
             <div>

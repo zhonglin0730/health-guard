@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Settings, Phone, ChevronRight, Watch, LogOut, FileText, Bell, Shield, ChevronLeft, Calendar, AlertCircle, Battery, Trash2, Smartphone, Lock } from 'lucide-react';
+import { User, Settings, Phone, ChevronRight, Watch, LogOut, FileText, Bell, Shield, ChevronLeft, Calendar, AlertCircle, Battery, Trash2, Smartphone, Lock, Plus, MapPin, RefreshCw, X, Sliders, Activity, Heart, Droplet, Info } from 'lucide-react';
 
 // --- Sub-View: History Archive ---
 const HistoryView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
@@ -181,14 +181,234 @@ const SettingsView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   );
 };
 
+// --- Sub-View: Device Management (NEW) ---
+const DeviceView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  return (
+    <div className="bg-gray-50 min-h-screen animate-in slide-in-from-right duration-300">
+      <div className="bg-white px-4 py-3 flex items-center shadow-sm sticky top-0 z-10">
+        <button onClick={onBack} className="mr-2 p-1 hover:bg-gray-100 rounded-full">
+          <ChevronLeft className="text-gray-600" />
+        </button>
+        <h2 className="text-lg font-bold text-slate-800">设备管理</h2>
+      </div>
+
+      <div className="p-4 space-y-4">
+        {/* Current Device */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm flex flex-col items-center">
+           <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+             <Watch size={48} className="text-blue-600" />
+           </div>
+           <h3 className="text-lg font-bold text-slate-800">普济预警手表 3S</h3>
+           <p className="text-sm text-gray-500 mb-6">SN: PJ-88219032-X</p>
+           
+           <div className="grid grid-cols-2 gap-4 w-full">
+             <div className="bg-gray-50 p-3 rounded-xl flex flex-col items-center">
+                <Battery size={20} className="text-green-500 mb-1" />
+                <span className="text-xs text-gray-400">电量</span>
+                <span className="font-bold text-slate-800">82%</span>
+             </div>
+             <div className="bg-gray-50 p-3 rounded-xl flex flex-col items-center">
+                <Activity size={20} className="text-blue-500 mb-1" />
+                <span className="text-xs text-gray-400">状态</span>
+                <span className="font-bold text-slate-800">已连接</span>
+             </div>
+           </div>
+        </div>
+
+        {/* Actions */}
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden divide-y divide-gray-50">
+          <button className="w-full p-4 flex items-center justify-between active:bg-gray-50">
+            <div className="flex items-center space-x-3 text-slate-700">
+              <MapPin size={18} />
+              <span className="text-sm font-medium">查找设备</span>
+            </div>
+            <ChevronRight size={16} className="text-gray-400" />
+          </button>
+          <button className="w-full p-4 flex items-center justify-between active:bg-gray-50">
+            <div className="flex items-center space-x-3 text-slate-700">
+              <RefreshCw size={18} />
+              <span className="text-sm font-medium">固件升级</span>
+            </div>
+            <div className="flex items-center">
+               <span className="text-xs text-gray-400 mr-2">已是最新版本</span>
+               <ChevronRight size={16} className="text-gray-400" />
+            </div>
+          </button>
+          <button className="w-full p-4 flex items-center justify-between active:bg-gray-50">
+            <div className="flex items-center space-x-3 text-slate-700">
+              <Settings size={18} />
+              <span className="text-sm font-medium">佩戴习惯设置</span>
+            </div>
+            <ChevronRight size={16} className="text-gray-400" />
+          </button>
+        </div>
+
+        <button className="w-full bg-white text-red-500 p-4 rounded-xl shadow-sm font-medium border border-gray-100 active:bg-red-50">
+           解除绑定
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// --- Sub-View: Emergency Contacts (NEW) ---
+const ContactsView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  const contacts = [
+    { name: '张强', relation: '儿子', phone: '138****8888', isPrimary: true },
+    { name: '李梅', relation: '配偶', phone: '139****9999', isPrimary: false },
+  ];
+
+  return (
+    <div className="bg-gray-50 min-h-screen animate-in slide-in-from-right duration-300">
+      <div className="bg-white px-4 py-3 flex items-center shadow-sm sticky top-0 z-10">
+        <button onClick={onBack} className="mr-2 p-1 hover:bg-gray-100 rounded-full">
+          <ChevronLeft className="text-gray-600" />
+        </button>
+        <h2 className="text-lg font-bold text-slate-800">紧急联系人</h2>
+      </div>
+
+      <div className="p-4">
+        <div className="text-xs text-gray-500 mb-4 px-1">
+          当检测到重大健康风险或触发SOS时，系统将自动通知以下联系人。
+        </div>
+
+        <div className="space-y-3 mb-6">
+          {contacts.map((contact, i) => (
+            <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+               <div className="flex items-center space-x-3">
+                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                   {contact.relation[0]}
+                 </div>
+                 <div>
+                   <div className="font-bold text-slate-800 text-sm flex items-center">
+                     {contact.name} ({contact.relation})
+                     {contact.isPrimary && <span className="ml-2 text-[10px] bg-red-100 text-red-500 px-1.5 py-0.5 rounded">首选</span>}
+                   </div>
+                   <div className="text-xs text-gray-400 mt-0.5">{contact.phone}</div>
+                 </div>
+               </div>
+               <button className="text-gray-400 p-2">
+                 <Settings size={18} />
+               </button>
+            </div>
+          ))}
+        </div>
+
+        <button className="w-full py-3 rounded-xl border-2 border-dashed border-gray-300 text-gray-400 flex items-center justify-center space-x-2 font-bold active:bg-gray-50">
+           <Plus size={18} />
+           <span>添加联系人</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// --- Sub-View: Threshold Settings (NEW) ---
+const ThresholdView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  return (
+    <div className="bg-gray-50 min-h-screen animate-in slide-in-from-right duration-300">
+      <div className="bg-white px-4 py-3 flex items-center shadow-sm sticky top-0 z-10">
+        <button onClick={onBack} className="mr-2 p-1 hover:bg-gray-100 rounded-full">
+          <ChevronLeft className="text-gray-600" />
+        </button>
+        <h2 className="text-lg font-bold text-slate-800">预警阈值设置</h2>
+      </div>
+
+      <div className="p-4 space-y-6">
+         <div className="bg-blue-50 p-3 rounded-lg text-xs text-blue-600 leading-relaxed flex items-start">
+            <Info size={16} className="mr-2 flex-shrink-0 mt-0.5" />
+            系统默认阈值基于AI大数据模型，建议非专业人士保持默认设置。调整过低可能导致频繁误报。
+         </div>
+
+         {/* Heart Rate */}
+         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-2 mb-4">
+              <Heart size={18} className="text-red-500" />
+              <h3 className="font-bold text-slate-700">心率预警</h3>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <div className="flex justify-between text-xs mb-2">
+                  <span className="text-gray-500">静态心率过高阈值</span>
+                  <span className="font-bold text-slate-800">100 bpm</span>
+                </div>
+                <input type="range" className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" min="80" max="140" defaultValue="100" />
+                <div className="flex justify-between text-[10px] text-gray-300 mt-1">
+                  <span>80</span>
+                  <span>140</span>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-xs mb-2">
+                  <span className="text-gray-500">静态心率过低阈值</span>
+                  <span className="font-bold text-slate-800">50 bpm</span>
+                </div>
+                <input type="range" className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" min="30" max="60" defaultValue="50" />
+              </div>
+            </div>
+         </div>
+
+         {/* Blood Pressure */}
+         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-2 mb-4">
+              <Activity size={18} className="text-blue-500" />
+              <h3 className="font-bold text-slate-700">血压预警</h3>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <div className="flex justify-between text-xs mb-2">
+                  <span className="text-gray-500">收缩压(高压)上限</span>
+                  <span className="font-bold text-slate-800">140 mmHg</span>
+                </div>
+                <input type="range" className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" min="120" max="180" defaultValue="140" />
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-2">
+                  <span className="text-gray-500">舒张压(低压)上限</span>
+                  <span className="font-bold text-slate-800">90 mmHg</span>
+                </div>
+                <input type="range" className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" min="80" max="110" defaultValue="90" />
+              </div>
+            </div>
+         </div>
+
+         {/* SpO2 */}
+         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-2 mb-4">
+              <Droplet size={18} className="text-cyan-500" />
+              <h3 className="font-bold text-slate-700">血氧预警</h3>
+            </div>
+            <div>
+              <div className="flex justify-between text-xs mb-2">
+                <span className="text-gray-500">血氧饱和度下限</span>
+                <span className="font-bold text-slate-800">90%</span>
+              </div>
+              <input type="range" className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" min="80" max="95" defaultValue="90" />
+            </div>
+         </div>
+
+         <div className="flex justify-end">
+           <button className="text-sm text-blue-600 font-bold active:opacity-60">恢复默认设置</button>
+         </div>
+      </div>
+    </div>
+  );
+};
+
 
 // --- Main Profile View ---
 export const ProfileView: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'main' | 'history' | 'notifications' | 'settings'>('main');
+  const [currentView, setCurrentView] = useState<'main' | 'history' | 'notifications' | 'settings' | 'device' | 'contacts' | 'threshold'>('main');
 
   if (currentView === 'history') return <HistoryView onBack={() => setCurrentView('main')} />;
   if (currentView === 'notifications') return <NotificationsView onBack={() => setCurrentView('main')} />;
   if (currentView === 'settings') return <SettingsView onBack={() => setCurrentView('main')} />;
+  if (currentView === 'device') return <DeviceView onBack={() => setCurrentView('main')} />;
+  if (currentView === 'contacts') return <ContactsView onBack={() => setCurrentView('main')} />;
+  if (currentView === 'threshold') return <ThresholdView onBack={() => setCurrentView('main')} />;
 
   return (
     <div className="pb-24 bg-gray-50 min-h-full">
@@ -220,7 +440,10 @@ export const ProfileView: React.FC = () => {
                </div>
              </div>
            </div>
-           <button className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">
+           <button 
+             onClick={() => setCurrentView('device')}
+             className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full active:bg-blue-100 transition-colors"
+           >
              管理
            </button>
         </div>
@@ -232,7 +455,10 @@ export const ProfileView: React.FC = () => {
           </div>
           
           <div className="divide-y divide-gray-50">
-            <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={() => setCurrentView('contacts')}
+              className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            >
               <div className="flex items-center space-x-3">
                 <Phone size={18} className="text-red-500" />
                 <span className="text-sm text-slate-700">紧急联系人</span>
@@ -242,7 +468,10 @@ export const ProfileView: React.FC = () => {
                 <ChevronRight size={16} />
               </div>
             </button>
-            <button className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={() => setCurrentView('threshold')}
+              className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            >
               <div className="flex items-center space-x-3">
                 <Shield size={18} className="text-blue-500" />
                 <span className="text-sm text-slate-700">预警阈值灵敏度</span>
