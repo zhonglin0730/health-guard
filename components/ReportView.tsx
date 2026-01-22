@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ChevronRight, Share, Headphones, HelpCircle, User as UserIcon } from 'lucide-react';
+import { X, ChevronRight, Share, Headphones, HelpCircle } from 'lucide-react';
 import { OrganMap } from './OrganMap';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 

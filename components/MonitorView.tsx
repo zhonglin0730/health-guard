@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
-import { ChevronLeft, Share, Info, HelpCircle, Brain, Activity } from 'lucide-react';
+import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
+import { ChevronLeft, Share, HelpCircle, Brain, Activity } from 'lucide-react';
 
 type MonitorTab = 'sleep' | 'uric' | 'lipid' | 'vessel' | 'glucose' | 'bp' | 'hr';
 type TimePeriod = 'day' | 'week' | 'month' | 'year';

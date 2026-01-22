@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Settings, Phone, ChevronRight, Watch, LogOut, FileText, Bell, Shield, ChevronLeft, Calendar, AlertCircle, Battery, Trash2, Smartphone, Lock, Plus, MapPin, RefreshCw, X, Sliders, Activity, Heart, Droplet, Info } from 'lucide-react';
+import { Settings, Phone, ChevronRight, Watch, LogOut, FileText, Bell, Shield, ChevronLeft, Calendar, AlertCircle, Battery, Trash2, Smartphone, Lock, Plus, MapPin, RefreshCw, Activity, Heart, Droplet, Info } from 'lucide-react';
 
 // --- Sub-View: History Archive ---
 const HistoryView: React.FC<{ onBack: () => void }> = ({ onBack }) => {

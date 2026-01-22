@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, Bell, ChevronRight, HelpCircle, AlertTriangle, CheckCircle2, Share2, Activity } from 'lucide-react';
+import { X, ChevronRight, HelpCircle, AlertTriangle, CheckCircle2, Share2, Activity } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
 
 interface RiskAnalysisViewProps {

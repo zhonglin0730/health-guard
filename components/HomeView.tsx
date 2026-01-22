@@ -11,7 +11,7 @@ export const HomeView: React.FC = () => {
 
   // Handle Browser/Mobile Back Button logic
   useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
+    const handlePopState = () => {
       // If back button is pressed, close any open overlays
       if (showReport) {
         setShowReport(false);
@@ -129,7 +129,7 @@ export const HomeView: React.FC = () => {
           onClick={() => openOverlay('risk', 'tumor')}
           className="w-full text-left mt-4 bg-white p-4 rounded-xl shadow-sm border-l-4 border-yellow-400 active:scale-[0.98] transition-transform relative group"
         >
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 group-hover:translate-x-1 transition-transform">
+          <div className="absolute right-4 top-1/2 -translate-x-1/2 text-gray-300 group-hover:translate-x-1 transition-transform">
              <ChevronRight size={20} />
           </div>
           <div className="flex items-start pr-6">
